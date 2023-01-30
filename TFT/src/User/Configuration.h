@@ -1207,7 +1207,7 @@
  * FILAMENT_LOAD_UNLOAD_GCODES option on Marlin configuration_adv.h need to be uncommented.
  * Adds a submenu to the movement menu for selecting load and unload actions.
  */
-#define LOAD_UNLOAD_M701_M702  // Default: uncommented (enabled)
+#define LOAD_UNLOAD_M701_M702  // Default: uncommented (enabled)    //CHANGED: critical to not use on mixing pritners
 
 /**
  * Delta Probe Type
