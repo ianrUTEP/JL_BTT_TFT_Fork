@@ -9,36 +9,32 @@ extern "C" {
 #include <stdint.h>
 #include "SerialConnection.h"
 
-#define CMD_MAX_SIZE 100
+#define CMD_MAX_SIZE 100  // including ending character '\0'
 
-#define sendEmergencyCmd(...) _sendEmergencyCmd(__VA_ARGS__, PORT_1)
+#define handleCmd(...)               _handleCmd(__VA_ARGS__, PORT_1)
+#define _handleCmd(a, b, ...)        handleCmd(a, b)
+#define sendEmergencyCmd(...)        _sendEmergencyCmd(__VA_ARGS__, PORT_1)
 #define _sendEmergencyCmd(a, b, ...) sendEmergencyCmd(a, b)
-#define storeEmergencyCmd(...) _storeEmergencyCmd(__VA_ARGS__, PORT_1)
-#define _storeEmergencyCmd(a, b, ...) storeEmergencyCmd(a, b)
-#define handleEmergencyCmd(...) _handleEmergencyCmd(__VA_ARGS__, PORT_1)
-#define _handleEmergencyCmd(a, b, ...) handleEmergencyCmd(a, b)
-#define handleCmd(...) _handleCmd(__VA_ARGS__, PORT_1)
-#define _handleCmd(a, b, ...) handleCmd(a, b)
-
 
 typedef char CMD[CMD_MAX_SIZE];
 
-bool isFullCmdQueue(void);      // also usable as condition callback for loopProcessToCondition()
-bool isNotEmptyCmdQueue(void);  // also usable as condition callback for loopProcessToCondition()
+// used by Monitoring menu available in Notification menu only
+// if DEBUG_MONITORING is enabled in Configuration.h
+uint8_t getQueueCount(void);
+
+bool isPendingCmd(void);
+bool isFullCmdQueue(void);
+bool isNotEmptyCmdQueue(void);
 bool isEnqueued(const CMD cmd);
 bool isWritingMode(void);
 
-void storeEmergencyCmd(const char * emergencyCmd, const SERIAL_PORT_INDEX portIndex);
-void sendEmergencyCmd(const char * emergencyCmd, const SERIAL_PORT_INDEX portIndex);
-void handleEmergencyCmd(const char * emergencyCmd, const SERIAL_PORT_INDEX portIndex);
 bool storeCmd(const char * format, ...);
 void mustStoreCmd(const char * format, ...);
 void mustStoreScript(const char * format, ...);
-bool storeCmdFromUART(SERIAL_PORT_INDEX portIndex, const CMD cmd);
-void mustStoreCacheCmd(const char * format, ...);
-bool moveCacheToCmd(void);
+bool storeCmdFromUART(const CMD cmd, const SERIAL_PORT_INDEX portIndex);
 void clearCmdQueue(void);
-void handleCmd(char * cmd, const SERIAL_PORT_INDEX portIndex);
+void handleCmd(CMD cmd, const SERIAL_PORT_INDEX portIndex);
+void sendEmergencyCmd(const CMD emergencyCmd, const SERIAL_PORT_INDEX portIndex);
 void sendQueueCmd(void);
 
 #ifdef __cplusplus

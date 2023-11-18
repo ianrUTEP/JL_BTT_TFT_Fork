@@ -44,12 +44,12 @@ void rrfStatusSet(char status)
           case 'R':
           case 'A':
           case 'D':
-            printAbortCease(); // done is the same as abort
+            setPrintAbort();  // done is the same as abort
             break;
 
           case 'B':
             if (was_printing)
-              printAbortCease();
+              setPrintAbort();
             break;
         }
         break;
@@ -116,11 +116,8 @@ inline void rrfStatusQueryNormal(void)
 }
 
 void rrfStatusQuery(void)
-{
-  if (!infoHost.connected)
-    return;
-
-  if (infoMachineSettings.firmwareType == FW_REPRAPFW)
+{ // following conditions ordered by importance
+  if (infoMachineSettings.firmwareType == FW_REPRAPFW && infoHost.connected)
   {
     static uint32_t rrf_next_query_time = 0;
 
