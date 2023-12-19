@@ -1173,7 +1173,7 @@
                         "M710 S%d\n",    "M710 I%d\n" }
 
 // Speed/flow rate names displayed in status screen
-#define SPEED_ID {"Sp.", "Fr."}  // (speed, flow rate)
+#define SPEED_ID {"Sp.", "Em."}  // (speed, flow rate) //CHANGED: was Fr., changed to Em.
 
 // Axes names displayed in Parameter Settings menu
 #define AXIS_DISPLAY_ID    {"X", "Y", "Z", "E0", "E1"}                                // (X, Y, Z, E0, E1)
@@ -1191,8 +1191,8 @@
 
 // Z Fade limits
 #define Z_FADE_MIN_VALUE      0.0f  // Default: 0.0f
-#define Z_FADE_MAX_VALUE     20.0f  // Default: 20.0f
-#define Z_FADE_DEFAULT_VALUE 10.0f  // Default: 10.0f
+#define Z_FADE_MAX_VALUE     100.0f  // Default: 20.0f //CHANGED
+#define Z_FADE_DEFAULT_VALUE 1.0f  // Default: 10.0f //CHANGED
 
 // Probe Offset limits
 #define PROBE_Z_OFFSET_MIN_VALUE     -20.0f  // Default: -20.0f
@@ -1238,7 +1238,7 @@
  * If not enabled, you can set the desired starting Z height
  * in Marlin fw (MANUAL_PROBE_START_Z in Configuration.h).
  */
-#define MBL_START_Z  // Default: uncommented (enabled)
+// #define MBL_START_Z  // Default: uncommented (enabled) //CHANGED: Disable to give control to Marlin
 
 /**
  * M601: Pause Print
