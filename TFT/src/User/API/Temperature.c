@@ -9,13 +9,13 @@ const char * const heatWaitCmd[MAX_HEATER_COUNT]   = HEAT_WAIT_CMD;
 const char * const extruderDisplayID[]             = EXTRUDER_ID;
 const char * const toolChange[]                    = TOOL_CHANGE;
 
-static HEATER   heater = {{}, NOZZLE0};
-static uint8_t  heat_send_waiting = 0;
-static uint8_t  heat_feedback_waiting = 0;
+static HEATER heater = {{}, NOZZLE0};
+static uint8_t heat_send_waiting = 0;
+static uint8_t heat_feedback_waiting = 0;
 
-static uint8_t  heat_update_seconds = TEMPERATURE_QUERY_SLOW_SECONDS;
+static uint8_t heat_update_seconds = TEMPERATURE_QUERY_SLOW_SECONDS;
 static uint32_t heat_next_update_time = 0;
-static bool     heat_sending_waiting = false;
+static bool  heat_sending_waiting = false;
 
 #define AUTOREPORT_TIMEOUT 3000  // 3 second grace period
 
@@ -91,9 +91,6 @@ void heatSetCurrentTemp(uint8_t index, const int16_t temp)
     return;
 
   heater.T[index].current = NOBEYOND(-99, temp, 999);
-
-  if (infoMachineSettings.autoReportTemp)
-    heatSetNextUpdateTime();  // set next timeout for temperature auto-report
 }
 
 int16_t heatGetCurrentTemp(uint8_t index)
@@ -160,6 +157,7 @@ bool heatSetTool(const uint8_t toolIndex)
   if (storeCmd("%s\n", toolChange[toolIndex]))
   {
     heater.toolIndex = toolIndex;
+
     return true;
   }
 
